@@ -3,6 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const { connectDb } = require('./database');
 const { loginRouter } = require('./user');
+const chargingRouter = require('./chargingLocation');
 const app = express();
 const port = process.env.PORT;
 
@@ -18,6 +19,7 @@ connectDb().then(()=>{
     });
 
     app.use(loginRouter);
+    app.use('/charging-locations', chargingRouter)
 
     // Start the server
     app.listen(port, () => {

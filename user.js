@@ -42,7 +42,7 @@ loginRouter.post("/signup", async (req, res) => {
 })
 
 
-loginRouter.get("/login", async (req, res) => {
+loginRouter.post("/login", async (req, res) => {
 
     try {
         let { username, password } = req.body;
