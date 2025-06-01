@@ -45,11 +45,31 @@ chargingRouter.get("/", authMiddleware, async (req, res) => {
 
 });
 
+chargingRouter.get("/:id", authMiddleware, async (req, res) => {
+
+    try {
+        const charging_points_locations = await getDB().collection(chargingPoints).find({
+            _id: new ObjectId(String(req.params.id))
+        }).toArray();
+        res.json({
+            data: charging_points_locations
+        });
+
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({
+            error: err.message,
+            message: 'Something went wrong'
+        })
+
+    }
+
+});
+
 
 chargingRouter.post("/", authMiddleware, async (req, res) => {
 
     try {
-
         const { name, location, status, power_output, connector_type } = req.body;
         const result = await getDB().collection(chargingPoints).insertOne({
             name, location, status, power_output, connector_type
@@ -83,7 +103,7 @@ chargingRouter.patch("/", authMiddleware, async (req, res) => {
         const result = await getDB().collection(chargingPoints).updateOne({
             _id: new ObjectId(String(_id))
         }, {
-            $set:{
+            $set: {
                 name, location, status, power_output, connector_type
             }
         })

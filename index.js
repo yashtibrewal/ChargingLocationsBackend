@@ -4,8 +4,11 @@ const express = require('express');
 const { connectDb } = require('./database');
 const { loginRouter } = require('./user');
 const chargingRouter = require('./chargingLocation');
+const cors = require('cors');
 const app = express();
 const port = process.env.PORT;
+
+app.use(cors())
 
 // Middleware to parse JSON
 app.use(express.json());
